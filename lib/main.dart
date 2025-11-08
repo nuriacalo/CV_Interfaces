@@ -106,28 +106,31 @@ class workExperience extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              company,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: contentDarkGrey,
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                company,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: contentDarkGrey,
+                ),
               ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              "Puesto: $role",
-              style: TextStyle(fontSize: 16, color: secondaryGrey),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              "${startDate.month}/${startDate.year} - ${endDate != null ? '${endDate?.month}/${endDate?.year}' : 'Presente'}",
-              style: TextStyle(fontSize: 16, color: secondaryGrey),
-            ),
-          ],
+              const SizedBox(height: 4),
+              Text(
+                "Puesto: $role",
+                style: TextStyle(fontSize: 16, color: secondaryGrey),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                "${startDate.month}/${startDate.year} - ${endDate != null ? '${endDate?.month}/${endDate?.year}' : 'Presente'}",
+                style: TextStyle(fontSize: 16, color: secondaryGrey),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -154,25 +157,31 @@ class education extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              institution,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: contentDarkGrey,
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                institution,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: contentDarkGrey,
+                ),
               ),
-            ),
-            const SizedBox(height: 4),
-            Text(degree, style: TextStyle(fontSize: 16, color: secondaryGrey)),
-            const SizedBox(height: 4),
-            Text(
-              "${startDate.month}/${startDate.year} - ${endDate != null ? '${endDate?.month}/${endDate?.year}' : 'Presente'}",
-              style: TextStyle(fontSize: 16, color: secondaryGrey),
-            ),
-          ],
+              const SizedBox(height: 4),
+              Text(
+                degree,
+                style: TextStyle(fontSize: 16, color: secondaryGrey),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                "${startDate.month}/${startDate.year} - ${endDate != null ? '${endDate?.month}/${endDate?.year}' : 'Presente'}",
+                style: TextStyle(fontSize: 16, color: secondaryGrey),
+              ),
+            ],
+          ),
         ),
       ),
     );
