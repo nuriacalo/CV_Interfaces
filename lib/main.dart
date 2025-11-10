@@ -1,6 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:t3_2/widgets/education_card.dart';
+import 'package:t3_2/widgets/expandable_section.dart';
+import 'package:t3_2/widgets/work_experience_card.dart';
+import 'package:t3_2/widgets/languages_card.dart';
 
 // Paleta de colores
 const Color primaryGreen = Color(0xFF4CAF50);
@@ -39,151 +41,142 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class ContactInfo extends StatelessWidget {
-  final String email;
-  final String phone;
-
-  const ContactInfo({super.key, required this.email, required this.phone});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: backgroundWhite,
-        border: Border(
-          top: BorderSide(color: secondaryGrey, width: 1.0),
-          bottom: BorderSide(color: secondaryGrey, width: 1.0),
-        ),
-      ),
-      margin: const EdgeInsets.all(12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.email, size: 24, color: primaryGreen),
-              SizedBox(width: 8.0),
-              Text(
-                'Email: $email',
-                style: TextStyle(fontSize: 16, color: secondaryGrey),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Icon(Icons.phone, size: 24, color: primaryGreen),
-              SizedBox(width: 8.0),
-              Text(
-                'Teléfono: $phone',
-                style: TextStyle(fontSize: 16, color: secondaryGrey),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class workExperience extends StatelessWidget {
-  final String company;
-  final String role;
-  final DateTime startDate;
-  final DateTime? endDate;
-
-  const workExperience({
-    super.key,
-    required this.company,
-    required this.role,
-    required this.startDate,
-    this.endDate,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              company,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: contentDarkGrey,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              "Puesto: $role",
-              style: TextStyle(fontSize: 16, color: secondaryGrey),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              "${startDate.month}/${startDate.year} - ${endDate != null ? '${endDate?.month}/${endDate?.year}' : 'Presente'}",
-              style: TextStyle(fontSize: 16, color: secondaryGrey),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class education extends StatelessWidget {
-  final String institution;
-  final String degree;
-  final DateTime startDate;
-  final DateTime? endDate;
-
-  const education({
-    super.key,
-    required this.institution,
-    required this.degree,
-    required this.startDate,
-    this.endDate,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              institution,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: contentDarkGrey,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(degree, style: TextStyle(fontSize: 16, color: secondaryGrey)),
-            const SizedBox(height: 4),
-            Text(
-              "${startDate.month}/${startDate.year} - ${endDate != null ? '${endDate?.month}/${endDate?.year}' : 'Presente'}",
-              style: TextStyle(fontSize: 16, color: secondaryGrey),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class _MyHomePageState extends State<MyHomePage> {
+  final List<Map<String, dynamic>> workExperienceData = [
+    {
+      'company': 'Clúster TIC Galicia',
+      'role': 'Bootcamp de formación en desarrollo web',
+      'startDate': DateTime(2025, 5),
+      'endDate': DateTime(2025, 7),
+    },
+    {
+      'company': 'Vegalsa S.A.',
+      'role': 'Cajera',
+      'startDate': DateTime(2022, 7),
+      'endDate': DateTime(2024, 1),
+    },
+    {
+      'company': 'El Corte Inglés S.A.',
+      'role': 'Dependienta',
+      'startDate': DateTime(2020, 7),
+      'endDate': DateTime(2022, 1),
+    },
+    {
+      'company': 'Primark S.L.',
+      'role': 'Dependienta',
+      'startDate': DateTime(2018, 7),
+      'endDate': DateTime(2020, 1),
+    },
+  ];
+
+  final List<Map<String, dynamic>> educationData = [
+    {
+      'institution': 'IES Fernando Wirtz Súarez',
+      'degree': 'FP Superior en Desarrollo de Aplicaciones Multiplataforma',
+      'startDate': DateTime(2024, 9),
+      'endDate': null,
+    },
+    {
+      'institution': 'Universidad de Santiago de Compostela',
+      'degree': 'Grado en Maestra de Educación Infantil',
+      'startDate': DateTime(2014, 9),
+      'endDate': DateTime(2018, 6),
+    },
+    {
+      'institution': 'Centro de Recursos educativos de la ONCE, Pontevedra',
+      'degree': 'Braille en abierto',
+      'startDate': DateTime(2024, 3),
+      'endDate': DateTime(2024, 5),
+    },
+    {
+      'institution': 'Universidad de Nebrija',
+      'degree':
+          "Atención al Alumnado con alteraciones del Comportamiento o Hiperactividad",
+      'startDate': DateTime(2021, 1),
+      'endDate': DateTime(2021, 4),
+    },
+    {
+      'institution': 'Universidad de Nebrija',
+      'degree':
+          "Atención al Alumnado con Discapacidad Física o Sobredotación Intelectual",
+      'startDate': DateTime(2020, 3),
+      'endDate': DateTime(2020, 4),
+    },
+    {
+      'institution': 'Universidad de Nebrija',
+      'degree': "Atención al Alumnado con Discapacidad Sensorial",
+      'startDate': DateTime(2019, 1),
+      'endDate': DateTime(2019, 3),
+    },
+    {
+      'institution': "Universidad de Nebrija",
+      'degree': "Educando en Valores la Paz y la Igualdad",
+      'startDate': DateTime(2019, 2),
+      'endDate': DateTime(2019, 4),
+    },
+  ];
+
+  final Map<String, List<String>> skillsData = {
+    'Lengajes de Programación': [
+      'Dart',
+      'Java',
+      'Kotlin',
+      'HTML',
+      'CSS',
+      'TypeScript',
+    ],
+    'Frameworks': ['Flutter', 'Spring Boot', 'Angular'],
+    'Bases de Datos': ['MySQL', 'PostgreSQL'],
+  };
+
+  final List<String> publicationsData = [
+    'Calo Mosquera, N., García-Rodeja Gayoso, I. y Sesto Varela, V. (2021). Construyendo conceptos sobre electricidad en infantil mediante actividades de indagación. Enseñanza de las Ciencias, 39(2), 223-240. https://doi.org/10.5565/rev/ensciencias.3238',
+  ];
+  final List<Map<String, String?>> languagesData = [
+    {'language': 'Gallego', 'level': 'Nativo'},
+    {'language': 'Español', 'level': 'Nativo'},
+    {'language': 'Inglés', 'level': 'C1', 'certification': 'Oxford'},
+  ];
+
   void _contact() {
-    setState(() {
-      // Add your contact logic here
-    });
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            'Información de Contacto',
+            style: TextStyle(color: contentDarkGrey),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 20.0,
+            vertical: 12.0,
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Puedes contactarme a través de:'),
+              ListTile(
+                leading: const Icon(Icons.email, color: primaryGreen),
+                title: const Text('nuriacalomosquera@gmail.com'),
+              ),
+              ListTile(
+                leading: const Icon(Icons.phone, color: primaryGreen),
+                title: const Text('+34 666 67 66 76'),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cerrar'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -194,12 +187,10 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverToBoxAdapter(
+              child: Container(
                 width: 200,
                 height: 200,
                 margin: const EdgeInsets.only(top: 16, bottom: 16),
@@ -211,22 +202,60 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-              const Text(
-                'Nuria Calo Mosquera',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 36,
-                  fontFamily: 'Arial',
-                  color: contentDarkGrey,
-                ),
-                textAlign: TextAlign.justify,
+            ),
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  Text(
+                    'Nuria Calo Mosquera',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 36,
+                      fontFamily: 'Arial',
+                      color: contentDarkGrey,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.code, color: secondaryGrey, size: 18),
+                          SizedBox(width: 8),
+                          Text(
+                            'github.com/nuriacalo',
+                            style: TextStyle(
+                              color: secondaryGrey,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Icon(Icons.group, color: secondaryGrey, size: 18),
+                          SizedBox(width: 8),
+                          Text(
+                            'linkedin.com/in/nuriacalo',
+                            style: TextStyle(
+                              color: secondaryGrey,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              ContactInfo(
-                email: 'nuriacalomosquera@gmail.com',
-                phone: '666 66 66 66',
-              ),
-              const SizedBox(height: 16),
-              const Text(
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+            SliverToBoxAdapter(child: _buildSectionDivider()),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+            const SliverToBoxAdapter(
+              child: Text(
                 'Experiencia Laboral',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -234,37 +263,27 @@ class _MyHomePageState extends State<MyHomePage> {
                   fontFamily: 'Arial',
                   color: accentNavyBlue,
                 ),
-                textAlign: TextAlign.justify,
+                textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 16),
-              Container(
-                width: double.infinity,
-                color: backgroundWhite,
-                child: Column(
-                  children: [
-                    workExperience(
-                      company: "Clúster TIC Galicia",
-                      role: "Bootcamp de formación en desarrollo web",
-                      startDate: DateTime(2025, 5),
-                      endDate: DateTime(2025, 7),
-                    ),
-                    workExperience(
-                      company: "Vegalsa S.A.",
-                      role: "Cajera",
-                      startDate: DateTime(2022, 7),
-                      endDate: DateTime(2024, 1),
-                    ),
-                    workExperience(
-                      company: "El Corte Inglés S.A",
-                      role: "Dependienta",
-                      startDate: DateTime(2020, 7),
-                      endDate: DateTime(2022, 1),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-              const Text(
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+            SliverList.builder(
+              itemCount: workExperienceData.length,
+              itemBuilder: (context, index) {
+                final experience = workExperienceData[index];
+                return WorkExperience(
+                  company: experience['company'],
+                  role: experience['role'],
+                  startDate: experience['startDate'],
+                  endDate: experience['endDate'],
+                );
+              },
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+            SliverToBoxAdapter(child: _buildSectionDivider()),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+            const SliverToBoxAdapter(
+              child: Text(
                 'Educación',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -272,64 +291,101 @@ class _MyHomePageState extends State<MyHomePage> {
                   fontFamily: 'Arial',
                   color: accentNavyBlue,
                 ),
-                textAlign: TextAlign.justify,
+                textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 16),
-              Container(
-                width: double.infinity,
-                color: backgroundWhite,
-                child: Column(
-                  children: [
-                    education(
-                      institution: "IES Fernando Wirtz Súarez",
-                      degree:
-                          "FP Dual Superior en Desarrollo de Aplicaciones Multiplataforma",
-                      startDate: DateTime(2024, 9),
-                    ),
-                    education(
-                      institution: "Universidad de Santiago de Compostela",
-                      degree: "Grado en Maestra de Educación Infantil",
-                      startDate: DateTime(2014, 9),
-                      endDate: DateTime(2018, 6),
-                    ),
-                    education(
-                      institution:
-                          "Centro de Recursos educativos de la ONCE, Pontevedra",
-                      degree: "Braille en abierto",
-                      startDate: DateTime(2024, 3),
-                      endDate: DateTime(2024, 5),
-                    ),
-                    education(
-                      institution: "Universidad de Nebrija",
-                      degree:
-                          "Atención al Alumnado con alteraciones del Comportamiento o Hiperactividad",
-                      startDate: DateTime(2021, 1),
-                      endDate: DateTime(2021, 4),
-                    ),
-                    education(
-                      institution: "Universidad de Nebrija",
-                      degree:
-                          "Atención al Alumnado con Discapacidad Física o Sobredotación Intelectual",
-                      startDate: DateTime(2020, 3),
-                      endDate: DateTime(2020, 4),
-                    ),
-                    education(
-                      institution: "Universidad de Nebrija",
-                      degree: "Atención al Alumnado con Discapacidad Sensorial",
-                      startDate: DateTime(2019, 1),
-                      endDate: DateTime(2019, 3),
-                    ),
-                    education(
-                      institution: "Universidad de Nebrija",
-                      degree: "Educando en Valores la Paz y la Igualdad",
-                      startDate: DateTime(2019, 2),
-                      endDate: DateTime(2019, 4),
-                    ),
-                  ],
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+            SliverList.builder(
+              itemCount: educationData.length,
+              itemBuilder: (context, index) {
+                final education = educationData[index];
+                return Education(
+                  institution: education['institution'],
+                  degree: education['degree'],
+                  startDate: education['startDate'],
+                  endDate: education['endDate'],
+                );
+              },
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+            SliverToBoxAdapter(child: _buildSectionDivider()),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+            const SliverToBoxAdapter(
+              child: Text(
+                'Idiomas',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                  fontFamily: 'Arial',
+                  color: accentNavyBlue,
                 ),
+                textAlign: TextAlign.center,
               ),
-            ],
-          ),
+            ),
+            SliverList.builder(
+              itemCount: languagesData.length,
+              itemBuilder: (context, index) {
+                final language = languagesData[index];
+                return Languages(
+                  language: language['language']!,
+                  level: language['level']!,
+                  certification: language['certification'],
+                );
+              },
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+            SliverToBoxAdapter(child: _buildSectionDivider()),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+            SliverList.builder(
+              itemCount: skillsData.length,
+              itemBuilder: (context, index) {
+                final category = skillsData.keys.elementAt(index);
+                List<String> skills = skillsData[category]!;
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: ExpandableSection(
+                    title: category,
+                    children: [
+                      for (final skill in skills) ListTile(title: Text(skill)),
+                    ],
+                  ),
+                );
+              },
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+            SliverToBoxAdapter(child: _buildSectionDivider()),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+            const SliverToBoxAdapter(
+              child: Text(
+                'Publicaciones',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                  fontFamily: 'Arial',
+                  color: accentNavyBlue,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+            SliverList.builder(
+              itemCount: publicationsData.length,
+              itemBuilder: (context, index) {
+                final publication = publicationsData[index];
+                return Card(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
+                  child: ListTile(title: Text(publication)),
+                  elevation: 2.0,
+                  shadowColor: primaryGreen.withAlpha(102),
+                  color: backgroundWhite,
+                );
+              },
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 32)),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -338,6 +394,30 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: primaryGreen,
         child: const Icon(Icons.contact_mail, color: backgroundWhite),
       ),
+    );
+  }
+
+  Widget _buildSectionDivider() {
+    return Row(
+      children: [
+        Expanded(
+          child: Divider(
+            color: secondaryGrey,
+            thickness: 2,
+            indent: 12,
+            endIndent: 6,
+          ),
+        ),
+        const Icon(Icons.star, color: primaryGreen),
+        Expanded(
+          child: Divider(
+            color: secondaryGrey,
+            thickness: 2,
+            indent: 6,
+            endIndent: 12,
+          ),
+        ),
+      ],
     );
   }
 }
