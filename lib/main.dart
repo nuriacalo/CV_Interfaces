@@ -1,13 +1,15 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:t3_2/widgets/education_card.dart';
+import 'package:t3_2/widgets/expandable_section.dart';
+import 'package:t3_2/widgets/languages_card.dart';
+import 'package:t3_2/widgets/work_experience_card.dart';
 
 // Paleta de colores
 const Color primaryGreen = Color(0xFF4CAF50);
+const Color accentOrange = Color(0xFFFFA726);
 const Color backgroundWhite = Color(0xFFFFFFFF);
 const Color contentDarkGrey = Color(0xFF333333);
 const Color secondaryGrey = Color(0xFF757575);
-const Color accentNavyBlue = Color(0xFF1A237E);
 
 void main() {
   runApp(const MyApp());
@@ -22,6 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'CV Nuria Calo Mosquera',
       theme: ThemeData(
+        scaffoldBackgroundColor: backgroundWhite,
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: primaryGreen),
       ),
@@ -39,314 +42,326 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class ContactInfo extends StatelessWidget {
-  final String email;
-  final String phone;
-
-  const ContactInfo({super.key, required this.email, required this.phone});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: backgroundWhite,
-        border: Border(
-          top: BorderSide(color: secondaryGrey, width: 1.0),
-          bottom: BorderSide(color: secondaryGrey, width: 1.0),
-        ),
-      ),
-      margin: const EdgeInsets.all(12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.email, size: 24, color: primaryGreen),
-              SizedBox(width: 8.0),
-              Text(
-                'Email: $email',
-                style: TextStyle(fontSize: 16, color: secondaryGrey),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Icon(Icons.phone, size: 24, color: primaryGreen),
-              SizedBox(width: 8.0),
-              Text(
-                'Teléfono: $phone',
-                style: TextStyle(fontSize: 16, color: secondaryGrey),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class workExperience extends StatelessWidget {
-  final String company;
-  final String role;
-  final DateTime startDate;
-  final DateTime? endDate;
-
-  const workExperience({
-    super.key,
-    required this.company,
-    required this.role,
-    required this.startDate,
-    this.endDate,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: SizedBox(
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                company,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: contentDarkGrey,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                "Puesto: $role",
-                style: TextStyle(fontSize: 16, color: secondaryGrey),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                "${startDate.month}/${startDate.year} - ${endDate != null ? '${endDate?.month}/${endDate?.year}' : 'Presente'}",
-                style: TextStyle(fontSize: 16, color: secondaryGrey),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class education extends StatelessWidget {
-  final String institution;
-  final String degree;
-  final DateTime startDate;
-  final DateTime? endDate;
-
-  const education({
-    super.key,
-    required this.institution,
-    required this.degree,
-    required this.startDate,
-    this.endDate,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: SizedBox(
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                institution,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: contentDarkGrey,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                degree,
-                style: TextStyle(fontSize: 16, color: secondaryGrey),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                "${startDate.month}/${startDate.year} - ${endDate != null ? '${endDate?.month}/${endDate?.year}' : 'Presente'}",
-                style: TextStyle(fontSize: 16, color: secondaryGrey),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _MyHomePageState extends State<MyHomePage> {
+  final List<Map<String, dynamic>> workExperienceData = [
+    {
+      'company': 'Clúster TIC Galicia',
+      'role': 'Bootcamp de formación en desarrollo web',
+      'startDate': DateTime(2025, 5),
+      'endDate': DateTime(2025, 7),
+    },
+    {
+      'company': 'Vegalsa S.A.',
+      'role': 'Cajera',
+      'startDate': DateTime(2022, 7),
+      'endDate': DateTime(2024, 1),
+    },
+    {
+      'company': 'El Corte Inglés S.A.',
+      'role': 'Dependienta',
+      'startDate': DateTime(2020, 7),
+      'endDate': DateTime(2022, 1),
+    },
+    {
+      'company': 'Primark S.L.',
+      'role': 'Dependienta',
+      'startDate': DateTime(2018, 7),
+      'endDate': DateTime(2020, 1),
+    },
+  ];
+
+  final List<Map<String, dynamic>> educationData = [
+    {
+      'institution': 'IES Fernando Wirtz Súarez',
+      'degree': 'FP Superior en Desarrollo de Aplicaciones Multiplataforma',
+      'startDate': DateTime(2024, 9),
+      'endDate': null,
+    },
+    {
+      'institution': 'Universidad de Santiago de Compostela',
+      'degree': 'Grado en Maestra de Educación Infantil',
+      'startDate': DateTime(2014, 9),
+      'endDate': DateTime(2018, 6),
+    },
+    {
+      'institution': 'Centro de Recursos educativos de la ONCE, Pontevedra',
+      'degree': 'Braille en abierto',
+      'startDate': DateTime(2024, 3),
+      'endDate': DateTime(2024, 5),
+    },
+    {
+      'institution': 'Universidad de Nebrija',
+      'degree':
+          "Atención al Alumnado con alteraciones del Comportamiento o Hiperactividad",
+      'startDate': DateTime(2021, 1),
+      'endDate': DateTime(2021, 4),
+    },
+    {
+      'institution': 'Universidad de Nebrija',
+      'degree':
+          "Atención al Alumnado con Discapacidad Física o Sobredotación Intelectual",
+      'startDate': DateTime(2020, 3),
+      'endDate': DateTime(2020, 4),
+    },
+    {
+      'institution': 'Universidad de Nebrija',
+      'degree': "Atención al Alumnado con Discapacidad Sensorial",
+      'startDate': DateTime(2019, 1),
+      'endDate': DateTime(2019, 3),
+    },
+    {
+      'institution': "Universidad de Nebrija",
+      'degree': "Educando en Valores la Paz y la Igualdad",
+      'startDate': DateTime(2019, 2),
+      'endDate': DateTime(2019, 4),
+    },
+  ];
+
+  final Map<String, List<String>> skillsData = {
+    'Lengajes de Programación': [
+      'Dart',
+      'Java',
+      'Kotlin',
+      'HTML',
+      'CSS',
+      'TypeScript',
+    ],
+    'Frameworks': ['Flutter', 'Spring Boot', 'Angular'],
+    'Bases de Datos': ['MySQL', 'PostgreSQL'],
+  };
+
+  final List<Map<String, String?>> languagesData = [
+    {'language': 'Gallego', 'level': 'Nativo'},
+    {'language': 'Español', 'level': 'Nativo'},
+    {'language': 'Inglés', 'level': 'C1', 'certification': 'Oxford'},
+  ];
+
   void _contact() {
-    setState(() {
-      // Add your contact logic here
-    });
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+          title: const Text(
+            'Información de Contacto',
+            style: TextStyle(color: contentDarkGrey),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Puedes contactarme a través de:'),
+              const SizedBox(height: 16),
+              ListTile(
+                leading: const Icon(Icons.mail, color: primaryGreen),
+                title: const Text('nuriacalomosquera@gmail.com'),
+                contentPadding: EdgeInsets.zero,
+              ),
+              ListTile(
+                leading: const Icon(Icons.phone, color: primaryGreen),
+                title: const Text('+34 666 67 66 67'),
+                contentPadding: EdgeInsets.zero,
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                'Cerrar',
+                style: TextStyle(color: primaryGreen),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(backgroundColor: primaryGreen, title: Text(widget.title)),
       body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                width: 200,
-                height: 200,
-                margin: const EdgeInsets.only(top: 16, bottom: 16),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage('assets/img/avatar.jpg'),
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverToBoxAdapter(
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  Container(
+                    height: 250,
+                    margin: const EdgeInsets.only(bottom: 20),
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage('assets/img/avatar.jpg'),
+                      ),
+                    ),
                   ),
-                ),
+                  Container(
+                    height: 80,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withOpacity(0.7),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 30,
+                    child: Text(
+                      'Nuria Calo Mosquera',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 36,
+                        fontFamily: 'Arial',
+                        color: Colors.white,
+                        shadows: [
+                          Shadow(blurRadius: 10.0, color: Colors.black)
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
               ),
-              const Text(
-                'Nuria Calo Mosquera',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 36,
-                  fontFamily: 'Arial',
-                  color: contentDarkGrey,
-                ),
-                textAlign: TextAlign.justify,
-              ),
-              ContactInfo(
-                email: 'nuriacalomosquera@gmail.com',
-                phone: '666 66 66 66',
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Experiencia Laboral',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                  fontFamily: 'Arial',
-                  color: accentNavyBlue,
-                ),
-                textAlign: TextAlign.justify,
-              ),
-              const SizedBox(height: 16),
-              Container(
-                width: double.infinity,
-                color: backgroundWhite,
-                child: Column(
-                  children: [
-                    workExperience(
-                      company: "Clúster TIC Galicia",
-                      role: "Bootcamp de formación en desarrollo web",
-                      startDate: DateTime(2025, 5),
-                      endDate: DateTime(2025, 7),
-                    ),
-                    workExperience(
-                      company: "Vegalsa S.A.",
-                      role: "Cajera",
-                      startDate: DateTime(2022, 7),
-                      endDate: DateTime(2024, 1),
-                    ),
-                    workExperience(
-                      company: "El Corte Inglés S.A",
-                      role: "Dependienta",
-                      startDate: DateTime(2020, 7),
-                      endDate: DateTime(2022, 1),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Educación',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                  fontFamily: 'Arial',
-                  color: accentNavyBlue,
-                ),
-                textAlign: TextAlign.justify,
-              ),
-              const SizedBox(height: 16),
-              Container(
-                width: double.infinity,
-                color: backgroundWhite,
-                child: Column(
-                  children: [
-                    education(
-                      institution: "IES Fernando Wirtz Súarez",
-                      degree:
-                          "FP Dual Superior en Desarrollo de Aplicaciones Multiplataforma",
-                      startDate: DateTime(2024, 9),
-                    ),
-                    education(
-                      institution: "Universidad de Santiago de Compostela",
-                      degree: "Grado en Maestra de Educación Infantil",
-                      startDate: DateTime(2014, 9),
-                      endDate: DateTime(2018, 6),
-                    ),
-                    education(
-                      institution:
-                          "Centro de Recursos educativos de la ONCE, Pontevedra",
-                      degree: "Braille en abierto",
-                      startDate: DateTime(2024, 3),
-                      endDate: DateTime(2024, 5),
-                    ),
-                    education(
-                      institution: "Universidad de Nebrija",
-                      degree:
-                          "Atención al Alumnado con alteraciones del Comportamiento o Hiperactividad",
-                      startDate: DateTime(2021, 1),
-                      endDate: DateTime(2021, 4),
-                    ),
-                    education(
-                      institution: "Universidad de Nebrija",
-                      degree:
-                          "Atención al Alumnado con Discapacidad Física o Sobredotación Intelectual",
-                      startDate: DateTime(2020, 3),
-                      endDate: DateTime(2020, 4),
-                    ),
-                    education(
-                      institution: "Universidad de Nebrija",
-                      degree: "Atención al Alumnado con Discapacidad Sensorial",
-                      startDate: DateTime(2019, 1),
-                      endDate: DateTime(2019, 3),
-                    ),
-                    education(
-                      institution: "Universidad de Nebrija",
-                      degree: "Educando en Valores la Paz y la Igualdad",
-                      startDate: DateTime(2019, 2),
-                      endDate: DateTime(2019, 4),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+            SliverToBoxAdapter(child: const SizedBox(height: 12)),
+            SliverToBoxAdapter(child: _buildSectionDivider()),
+            SliverToBoxAdapter(child: const SizedBox(height: 24)),
+            SliverToBoxAdapter(
+              child: _buildSectionTitle('Experiencia Laboral'),
+            ),
+            SliverToBoxAdapter(child: const SizedBox(height: 12)),
+            SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final workExperience = workExperienceData[index];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: WorkExperience(
+                    company: workExperience['company'],
+                    role: workExperience['role'],
+                    startDate: workExperience['startDate'],
+                    endDate: workExperience['endDate'],
+                  ),
+                );
+              }, childCount: workExperienceData.length),
+            ),
+            SliverToBoxAdapter(child: const SizedBox(height: 18)),
+            SliverToBoxAdapter(child: _buildSectionDivider()),
+            SliverToBoxAdapter(child: const SizedBox(height: 18)),
+            SliverToBoxAdapter(child: _buildSectionTitle('Educación')),
+            SliverToBoxAdapter(child: const SizedBox(height: 12)),
+            SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final education = educationData[index];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: Education(
+                    institution: education['institution'],
+                    degree: education['degree'],
+                    startDate: education['startDate'],
+                    endDate: education['endDate'],
+                  ),
+                );
+              }, childCount: educationData.length),
+            ),
+            SliverToBoxAdapter(child: const SizedBox(height: 18)),
+            SliverToBoxAdapter(child: _buildSectionDivider()),
+            SliverToBoxAdapter(child: const SizedBox(height: 18)),
+            SliverToBoxAdapter(child: _buildSectionTitle('Idiomas')),
+            SliverToBoxAdapter(child: const SizedBox(height: 12)),
+            SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final lang = languagesData[index];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: Lenguages(
+                    language: lang['language']!,
+                    level: lang['level']!,
+                    certification: lang['certification'],
+                  ),
+                );
+              }, childCount: languagesData.length),
+            ),
+            SliverToBoxAdapter(child: const SizedBox(height: 24)),
+            SliverToBoxAdapter(child: _buildSectionDivider()),
+            SliverToBoxAdapter(child: const SizedBox(height: 18)),
+            SliverToBoxAdapter(
+              child: _buildSectionTitle('Información Adicional'),
+            ),
+            SliverToBoxAdapter(child: const SizedBox(height: 12)),
+            SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                String category = skillsData.keys.elementAt(index);
+                List<String> skills = skillsData[category]!;
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: ExpandableSection(
+                    title: category,
+                    children: [
+                      for (final skill in skills) ListTile(title: Text(skill)),
+                    ],
+                  ),
+                );
+              }, childCount: skillsData.length),
+            ),
+            SliverToBoxAdapter(child: const SizedBox(height: 24)),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _contact,
-        tooltip: 'Contact',
-        backgroundColor: primaryGreen,
+        tooltip: 'Contacto',
+        backgroundColor: accentOrange,
         child: const Icon(Icons.contact_mail, color: backgroundWhite),
       ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return Text(
+      title,
+      style: const TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 24,
+        fontFamily: 'Arial',
+        color: primaryGreen,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  Widget _buildSectionDivider() {
+    return Row(
+      children: [
+        Expanded(
+          child: Divider(
+            color: primaryGreen.withAlpha(102),
+            thickness: 2,
+            indent: 12,
+            endIndent: 6,
+          ),
+        ),
+        const Icon(Icons.star, color: primaryGreen),
+        Expanded(
+          child: Divider(
+            color: primaryGreen.withAlpha(102),
+            thickness: 2,
+            indent: 6,
+            endIndent: 12,
+          ),
+        ),
+      ],
     );
   }
 }
