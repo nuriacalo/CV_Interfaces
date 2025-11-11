@@ -15,7 +15,8 @@ class ExpandableSection extends StatefulWidget {
   State<ExpandableSection> createState() => _ExpandableSectionState();
 }
 
-class _ExpandableSectionState extends State<ExpandableSection> {
+class _ExpandableSectionState extends State<ExpandableSection>
+    with AutomaticKeepAliveClientMixin {
   bool _isExpanded = false;
 
   void _toggleExpand() {
@@ -25,11 +26,22 @@ class _ExpandableSectionState extends State<ExpandableSection> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+
+    // Obtenemos el ancho de la pantalla
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    // Definimos un margen horizontal responsivo
+    final horizontalMargin = screenWidth > 600 ? screenWidth * 0.15 : 16.0;
+
     return Card(
       elevation: 2.0,
       shadowColor: primaryGreen.withAlpha(102),
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      margin: EdgeInsets.symmetric(horizontal: horizontalMargin, vertical: 8.0),
       color: backgroundWhite,
       child: Column(
         children: [

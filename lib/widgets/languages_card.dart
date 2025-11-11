@@ -15,8 +15,13 @@ class Languages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Obtenemos el ancho de la pantalla
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    // Definimos un margen horizontal responsivo
+    final horizontalMargin = screenWidth > 600 ? screenWidth * 0.15 : 16.0;
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      margin: EdgeInsets.symmetric(horizontal: horizontalMargin, vertical: 8.0),
       elevation: 2.0,
       shadowColor: primaryGreen.withAlpha(102),
       color: backgroundWhite,

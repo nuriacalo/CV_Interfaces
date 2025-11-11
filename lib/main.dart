@@ -9,7 +9,6 @@ const Color primaryGreen = Color(0xFF4CAF50);
 const Color backgroundWhite = Color(0xFFFFFFFF);
 const Color contentDarkGrey = Color(0xFF333333);
 const Color secondaryGrey = Color(0xFF757575);
-const Color accentNavyBlue = Color(0xFF1A237E);
 
 void main() {
   runApp(const MyApp());
@@ -24,10 +23,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'CV Nuria Calo Mosquera',
       theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: primaryGreen),
+        colorScheme: ColorScheme.fromSeed(seedColor: primaryGreen,),
       ),
-      home: const MyHomePage(title: 'Nuria Calo Mosquera'),
+      home: const MyHomePage(title: 'Curriculum Vitae'),
     );
   }
 }
@@ -145,24 +143,42 @@ class _MyHomePageState extends State<MyHomePage> {
         return AlertDialog(
           title: const Text(
             'Información de Contacto',
-            style: TextStyle(color: contentDarkGrey),
+            style: TextStyle(color: contentDarkGrey, fontWeight: FontWeight.bold),
           ),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 20.0,
-            vertical: 12.0,
+            vertical: 10.0,
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Puedes contactarme a través de:'),
-              ListTile(
-                leading: const Icon(Icons.email, color: primaryGreen),
-                title: const Text('nuriacalomosquera@gmail.com'),
+              const Text('Puedes contactarme a través de:'),
+              const SizedBox(height: 12), 
+              const Row(
+                children: [
+                  Icon(Icons.email, color: primaryGreen, size: 20), 
+                  SizedBox(width: 8), 
+                  Expanded( 
+                    child: Text(
+                      'nuriacalomosquera@gmail.com',
+                      style: TextStyle(fontSize: 14),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
               ),
-              ListTile(
-                leading: const Icon(Icons.phone, color: primaryGreen),
-                title: const Text('+34 666 67 66 76'),
+              const SizedBox(height: 8),
+              const Row(
+                children: [
+                  Icon(Icons.phone, color: primaryGreen, size: 20),
+                  SizedBox(width: 8),
+                  Text(
+                    '+34 666 67 66 76',
+                    style: TextStyle(fontSize: 14),
+                  ),
+                ],
               ),
             ],
           ),
@@ -181,89 +197,133 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // Obtenemos el ancho de la pantalla para usarlo en varios sitios
+    final screenWidth = MediaQuery.of(context).size.width;
+    // Definimos un margen/padding horizontal responsivo
+    final horizontalPadding = screenWidth > 600 ? screenWidth * 0.15 : 16.0;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        centerTitle: true,
         title: Text(widget.title),
       ),
       body: Center(
         child: CustomScrollView(
           slivers: <Widget>[
             SliverToBoxAdapter(
-              child: Container(
-                width: 200,
-                height: 200,
-                margin: const EdgeInsets.only(top: 16, bottom: 16),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage('assets/img/avatar.jpg'),
-                  ),
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  Text(
-                    'Nuria Calo Mosquera',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 36,
-                      fontFamily: 'Arial',
-                      color: contentDarkGrey,
+              child: Stack(
+                alignment: Alignment
+                    .bottomCenter, 
+                children: <Widget>[
+                  Container(
+                    width: 200,
+                    height: 200,
+                    margin: const EdgeInsets.only(top: 16, bottom: 16),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage('assets/img/nuria.jpg'),
+                      ),
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(Icons.code, color: secondaryGrey, size: 18),
-                          SizedBox(width: 8),
-                          Text(
-                            'github.com/nuriacalo',
-                            style: TextStyle(
-                              color: secondaryGrey,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(Icons.group, color: secondaryGrey, size: 18),
-                          SizedBox(width: 8),
-                          Text(
-                            'linkedin.com/in/nuriacalo',
-                            style: TextStyle(
-                              color: secondaryGrey,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                  Container(
+                    // Etiqueta superpuesta
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 4,
+                      horizontal: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: primaryGreen.withAlpha(200),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Text(
+                      'Desarrolladora Multiplataforma',
+                      style: TextStyle(color: contentDarkGrey, fontSize: 12),
+                    ),
                   ),
                 ],
               ),
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
-            SliverToBoxAdapter(child: _buildSectionDivider()),
+            SliverToBoxAdapter(
+              child: Column(
+                children: [                  
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Nuria Calo Mosquera',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 36,
+                            fontFamily: 'Arial',
+                            color: contentDarkGrey,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(Icons.code, color: secondaryGrey, size: 18),
+                                SizedBox(width: 8),
+                                Text(
+                                  'github.com/nuriacalo',
+                                  style: TextStyle(
+                                    color: secondaryGrey,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Icon(Icons.group, color: secondaryGrey, size: 18),
+                                SizedBox(width: 8),
+                                Text(
+                                  'linkedin.com/in/nuriacalo',
+                                  style: TextStyle(
+                                    color: secondaryGrey,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
-            const SliverToBoxAdapter(
-              child: Text(
-                'Experiencia Laboral',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                  fontFamily: 'Arial',
-                  color: accentNavyBlue,
+            SliverToBoxAdapter(child: _buildSectionDivider(context)),
+            const SliverToBoxAdapter(child: SizedBox(height: 16)),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.work, color: primaryGreen),
+                    SizedBox(width: 8),
+                    Text(
+                      'Experiencia Laboral',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        fontFamily: 'Arial',
+                        color: contentDarkGrey,
+                      ),
+                    ),
+                  ],
                 ),
-                textAlign: TextAlign.center,
               ),
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
@@ -280,18 +340,27 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
-            SliverToBoxAdapter(child: _buildSectionDivider()),
+            SliverToBoxAdapter(child: _buildSectionDivider(context)),
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
-            const SliverToBoxAdapter(
-              child: Text(
-                'Educación',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                  fontFamily: 'Arial',
-                  color: accentNavyBlue,
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.school, color: primaryGreen),
+                    SizedBox(width: 8),
+                    Text(
+                      'Educación',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        fontFamily: 'Arial',
+                        color: contentDarkGrey,
+                      ),
+                    ),
+                  ],
                 ),
-                textAlign: TextAlign.center,
               ),
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
@@ -308,18 +377,28 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
-            SliverToBoxAdapter(child: _buildSectionDivider()),
+            SliverToBoxAdapter(child: _buildSectionDivider(context)),
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
-            const SliverToBoxAdapter(
-              child: Text(
-                'Idiomas',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                  fontFamily: 'Arial',
-                  color: accentNavyBlue,
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.language, color: primaryGreen),
+                    SizedBox(width: 8),
+                    Text(
+                      'Idiomas',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        fontFamily: 'Arial',
+                        color: contentDarkGrey,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
-                textAlign: TextAlign.center,
               ),
             ),
             SliverList.builder(
@@ -334,37 +413,45 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
-            SliverToBoxAdapter(child: _buildSectionDivider()),
+            SliverToBoxAdapter(child: _buildSectionDivider(context)),
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
             SliverList.builder(
               itemCount: skillsData.length,
               itemBuilder: (context, index) {
                 final category = skillsData.keys.elementAt(index);
                 List<String> skills = skillsData[category]!;
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: ExpandableSection(
-                    title: category,
-                    children: [
-                      for (final skill in skills) ListTile(title: Text(skill)),
-                    ],
-                  ),
+                return ExpandableSection(
+                  key: ValueKey(category),
+                  title: category,
+                  children: [
+                    for (final skill in skills) ListTile(title: Text(skill)),
+                  ],
                 );
               },
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
-            SliverToBoxAdapter(child: _buildSectionDivider()),
+            SliverToBoxAdapter(child: _buildSectionDivider(context)),
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
-            const SliverToBoxAdapter(
-              child: Text(
-                'Publicaciones',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                  fontFamily: 'Arial',
-                  color: accentNavyBlue,
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.article, color: primaryGreen),
+                    SizedBox(width: 8),
+                    Text(
+                      'Publicaciones',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                        fontFamily: 'Arial',
+                        color: contentDarkGrey,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
-                textAlign: TextAlign.center,
               ),
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 16)),
@@ -372,15 +459,17 @@ class _MyHomePageState extends State<MyHomePage> {
               itemCount: publicationsData.length,
               itemBuilder: (context, index) {
                 final publication = publicationsData[index];
+                final horizontalMargin =
+                    screenWidth > 600 ? screenWidth * 0.15 : 16.0;
                 return Card(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 16.0,
+                  margin: EdgeInsets.symmetric(
+                    horizontal: horizontalMargin,
                     vertical: 8.0,
                   ),
-                  child: ListTile(title: Text(publication)),
                   elevation: 2.0,
                   shadowColor: primaryGreen.withAlpha(102),
                   color: backgroundWhite,
+                  child: ListTile(title: Text(publication)),
                 );
               },
             ),
@@ -392,29 +481,32 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _contact,
         tooltip: 'Contact',
         backgroundColor: primaryGreen,
-        child: const Icon(Icons.contact_mail, color: backgroundWhite),
+        child: const Icon(Icons.contact_mail, color: backgroundWhite, size: 32),
       ),
     );
   }
 
-  Widget _buildSectionDivider() {
+  Widget _buildSectionDivider(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final horizontalIndent = screenWidth > 600 ? screenWidth * 0.15 : 12.0;
+
     return Row(
       children: [
         Expanded(
           child: Divider(
             color: secondaryGrey,
             thickness: 2,
-            indent: 12,
+            indent: horizontalIndent,
             endIndent: 6,
           ),
         ),
-        const Icon(Icons.star, color: primaryGreen),
+        const Icon(Icons.computer, color: primaryGreen),
         Expanded(
           child: Divider(
             color: secondaryGrey,
             thickness: 2,
             indent: 6,
-            endIndent: 12,
+            endIndent: horizontalIndent,
           ),
         ),
       ],
