@@ -18,7 +18,7 @@ A continuación se muestra cómo se adapta la aplicación a diferentes tamaños 
 **Vista Móvil**
 
 <p align="center">
-  <img src=".assets/img/readme/versionMobil.png" alt="Vista Móvil de la App" width="300"/>
+  <img src="./assets/img/readme/versionMobil.png" alt="Vista Móvil de la App" width="300"/>
 </p>
 
 **Vista Web/Escritorio**
